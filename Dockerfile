@@ -39,6 +39,8 @@ RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
 # install oh-my-zsh
 RUN git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh \
  && cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+COPY yilu.zsh-theme /root/.oh-my-zsh/themes/yilu.zsh-theme
+RUN sed -i 's|ZSH_THEME="robbyrussell"|ZSH_THEME="yilu"|' /root/.zshrc
 
 # set chinese registry mirror for composer and npm
 RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com \
