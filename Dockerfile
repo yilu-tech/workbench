@@ -29,12 +29,18 @@ RUN apk add php7 \
             php7-fileinfo\
             libbsd
 
-RUN apk add openssh-client git nodejs make python-dev g++
+RUN apk add openssh-client git nodejs make python-dev g++ zsh
 
+# install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
  && php composer-setup.php --install-dir=/usr/bin --filename=composer \
  && rm /composer-setup.php
 
+# install oh-my-zsh
+RUN git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh \
+ && cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
+
+# set chinese registry mirror for composer and npm
 RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com \
  && npm config set registry https://registry.npm.taobao.org
 
