@@ -2,7 +2,7 @@ FROM ubuntu:18.04
 
 LABEL maintainer="yilu-zzb <zhouzb@yilu-tech.com>"
 
-COPY sources.list /etc/apt/sources.list
+# COPY sources.list /etc/apt/sources.list
 RUN apt-get update
 
 RUN apt-get install -y nginx php7.2 php7.2-fpm openssh-client git nodejs make python-dev g++ zsh
