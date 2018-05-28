@@ -2,7 +2,6 @@ FROM ubuntu:18.04
 
 LABEL maintainer="yilu-zzb <zhouzb@yilu-tech.com>"
 
-COPY sources.list /etc/apt/sources.list
 RUN apt-get update
 
 RUN apt-get install -y tzdata
