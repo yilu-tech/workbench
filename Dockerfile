@@ -2,13 +2,14 @@ FROM ubuntu:18.04
 
 LABEL maintainer="yilu-zzb <zhouzb@yilu-tech.com>"
 
-RUN echo "Asia/Shanghai" > /etc/timezone
-RUN dpkg-reconfigure -f noninteractive tzdata
-
 COPY sources.list /etc/apt/sources.list
 RUN apt-get update
 
-RUN apt-get install -y nginx php7.2 php7.2-fpm openssh-client git nodejs make python-dev g++ zsh
+RUN apt-get install -y tzdata
+RUN echo "Asia/Shanghai" > /etc/timezone
+RUN dpkg-reconfigure -f noninteractive tzdata
+
+RUN apt-get install -y nginx php7.2 php7.2-fpm openssh-client git nodejs make python-dev g++ zsh 
 
 # install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
