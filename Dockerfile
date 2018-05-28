@@ -2,6 +2,7 @@ FROM ubuntu:18.04
 
 LABEL maintainer="yilu-zzb <zhouzb@yilu-tech.com>"
 
+COPY sources.list /etc/apt/sources.list
 RUN apt-get update
 
 RUN apt-get install -y tzdata
@@ -25,7 +26,7 @@ RUN sed -i 's|ZSH_THEME="robbyrussell"|ZSH_THEME="yilu"|' /root/.zshrc
 RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com \
     && npm config set registry https://registry.npm.taobao.org | bash
 
-RUN sed -i '/*.conf;/a\        include /workspace/*/nginx.conf;' /etc/nginx/nginx.conf
+RUN sed -i '/sites-enabled/a\        include /workspace/*/nginx;' /etc/nginx/nginx.conf
 
 COPY startup /startup
 
