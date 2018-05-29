@@ -2,13 +2,14 @@ FROM ubuntu:18.04
 
 LABEL maintainer="yilu-zzb <zhouzb@yilu-tech.com>"
 
+COPY sources.list /etc/apt/sources.list
 RUN apt-get update
 
 RUN apt-get install -y tzdata
 RUN echo "Asia/Shanghai" > /etc/timezone
 RUN dpkg-reconfigure -f noninteractive tzdata
 
-RUN apt-get install -y nginx php7.2 php7.2-fpm openssh-client git make python-dev g++ zsh 
+RUN apt-get install -y nginx php7.2 php7.2-fpm openssh-client git make python-dev g++ zsh wget
 
 # install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
@@ -26,8 +27,6 @@ RUN wget -qO- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.
 ENV NVM_DIR /root/.nvm
 RUN . $NVM_DIR/nvm.sh \
  && nvm install node \
- && git clone https://github.com/robbyrussell/oh-my-zsh.git /root/.oh-my-zsh \
- && cp /root/.oh-my-zsh/templates/zshrc.zsh-template /root/.zshrc \
  && echo 'export NVM_DIR="$HOME/.nvm"\n[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm\n[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion' >> /root/.zshrc
 
 # set chinese registry mirror for composer and npm
