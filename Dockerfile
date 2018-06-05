@@ -50,7 +50,7 @@ RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
 RUN sed -i '/*.conf;/a\    include /workspace/*/nginx.conf;' /etc/nginx/nginx.conf
 
 COPY php.ini /etc/php7/php.ini
-COPY opcache-blacklist.txt /etc/php7/pcache-blacklist.txt
+COPY opcache-blacklist.txt /etc/php7/opcache-blacklist.txt
 COPY www.conf /etc/php7/php-fpm.d/www.conf
 COPY startup /startup
 
