@@ -1,4 +1,4 @@
 #!/bin/sh
 
-service php7.2-fpm start
+php-fpm7
 nginx -g 'daemon off;'
