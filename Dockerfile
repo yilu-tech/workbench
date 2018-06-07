@@ -28,6 +28,7 @@ RUN apk add php7 \
             php7-gmp \
             php7-fileinfo\
             php7-opcache \
+            php7-xdebug \
             libbsd
 
 RUN apk add openssh-client git nodejs make python-dev g++ zsh
