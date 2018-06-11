@@ -6,7 +6,8 @@ RUN echo "https://mirrors.aliyun.com/alpine/v3.7/main" > /etc/apk/repositories \
     && echo "https://mirrors.aliyun.com/alpine/v3.7/community" >> /etc/apk/repositories \
     && apk update
 
-RUN apk add php7 \
+RUN apk add openrc \
+            php7 \
             php7-fpm \
             php7-openssl \
             php7-pdo_mysql \
