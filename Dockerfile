@@ -6,8 +6,7 @@ RUN echo "https://mirrors.aliyun.com/alpine/v3.7/main" > /etc/apk/repositories \
     && echo "https://mirrors.aliyun.com/alpine/v3.7/community" >> /etc/apk/repositories \
     && apk update
 
-RUN apk add openrc \
-            php7 \
+RUN apk add php7 \
             php7-fpm \
             php7-openssl \
             php7-pdo_mysql \
@@ -30,6 +29,7 @@ RUN apk add openrc \
             php7-fileinfo\
             php7-opcache \
             php7-xdebug \
+            php7-zip \
             libbsd
 
 RUN apk add openssh-client git nodejs make python-dev g++ zsh
@@ -50,6 +50,9 @@ RUN composer config -g repo.packagist composer https://packagist.phpcomposer.com
  && npm config set registry https://registry.npm.taobao.org
 
 RUN sed -i '/*.conf;/a\    include /workspace/*/nginx.conf;' /etc/nginx/nginx.conf
+
+COPY cmd/php-restart /usr/local/bin/php-restart
+RUN chmod +x -R /usr/local/bin/*
 
 COPY php.ini /etc/php7/php.ini
 COPY www.conf /etc/php7/php-fpm.d/www.conf
