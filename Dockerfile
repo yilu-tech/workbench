@@ -2,9 +2,9 @@ FROM nginx:alpine
 
 LABEL maintainer="yilu-zzb <zhouzb@yilu-tech.com>"
 
-RUN echo "https://mirrors.aliyun.com/alpine/v3.7/main" > /etc/apk/repositories \ 
-    && echo "https://mirrors.aliyun.com/alpine/v3.7/community" >> /etc/apk/repositories \
-    && apk update
+RUN sed -i "s|dl-cdn.alpinelinux.org|mirrors.aliyun.com|g" /etc/apk/repositories \
+ && sed -i "s|http|https|g" /etc/apk/repositories \ 
+ && apk update
 
 RUN apk add php7 \
             php7-fpm \
