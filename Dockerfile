@@ -4,9 +4,9 @@ LABEL maintainer="yilu-zzb <zhouzb@yilu-tech.com>"
 
 RUN sed -i "s|dl-cdn.alpinelinux.org|mirrors.aliyun.com|g" /etc/apk/repositories \
  && sed -i "s|http|https|g" /etc/apk/repositories \ 
- && apk update
+ && apk update \
 
-RUN apk add php7 \
+ && apk add php7 \
             php7-fpm \
             php7-openssl \
             php7-pdo_mysql \
@@ -30,12 +30,12 @@ RUN apk add php7 \
             php7-opcache \
             php7-xdebug \
             php7-zip \
-            libbsd
+            libbsd \
 
-RUN apk add openssh-client git nodejs make python-dev g++ zsh
+ && apk add openssh-client git make python-dev g++ zsh \
 
 # install composer
-RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
+ && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
  && php composer-setup.php --install-dir=/usr/bin --filename=composer \
  && rm /composer-setup.php
 
@@ -46,10 +46,8 @@ COPY yilu.zsh-theme /root/.oh-my-zsh/themes/yilu.zsh-theme
 RUN sed -i 's|ZSH_THEME="robbyrussell"|ZSH_THEME="yilu"|' /root/.zshrc
 
 # set chinese registry mirror for composer and npm
-RUN composer config -g repo.packagist composer https://packagist.laravel-china.org \
- && npm config set registry https://registry.npm.taobao.org
-
-RUN sed -i '/*.conf;/a\    include /workspace/*/nginx.conf;' /etc/nginx/nginx.conf
+RUN composer config -g repo.packagist composer https://packagist.laravel-china.org
+ && sed -i '/*.conf;/a\    include /workspace/*/nginx.conf;' /etc/nginx/nginx.conf
 
 COPY cmd/php-restart /usr/local/bin/php-restart
 RUN chmod +x -R /usr/local/bin/*
@@ -58,8 +56,8 @@ COPY php.ini /etc/php7/php.ini
 COPY www.conf /etc/php7/php-fpm.d/www.conf
 COPY startup /startup
 
-RUN chmod +x /startup
-RUN mkdir -p /workspace
+RUN chmod +x /startup \
+ && mkdir -p /workspace
 WORKDIR /workspace
 
 CMD ["/startup"]
