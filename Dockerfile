@@ -47,7 +47,7 @@ RUN sed -i 's|ZSH_THEME="robbyrussell"|ZSH_THEME="yilu"|' /root/.zshrc
 
 # set chinese registry mirror for composer and npm
 RUN composer config -g repo.packagist composer https://packagist.laravel-china.org \
- && sed -i '/*.conf;/a\    include /workspace/*/nginx.conf;' /etc/nginx/nginx.conf
+ && sed -i '/*.conf;/a\    include /workspace/*/*/nginx.conf;' /etc/nginx/nginx.conf
 
 COPY cmd/php-restart /usr/local/bin/php-restart
 RUN chmod +x -R /usr/local/bin/*
