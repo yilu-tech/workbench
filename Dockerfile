@@ -56,7 +56,6 @@ RUN sed -i 's|v3.9|edge|g' /etc/apk/repositories \
  && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
 
  && sed -i '/*.conf;/a\    include /workspace/*/*/nginx.conf;' /etc/nginx/nginx.conf \
-
  && chmod +x /startup \
  && mkdir -p /workspace
 
