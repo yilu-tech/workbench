@@ -1,14 +1,28 @@
-FROM nginx:alpine
+FROM nginx:1.17.0-alpine
 
-LABEL maintainer="yilu-zzb <zhouzb@yilu-tech.com>"
+LABEL maintainer="yilu-zzb <zhouzhibin@yilu.co>"
 
-RUN sed -i "s|dl-cdn.alpinelinux.org|mirrors.aliyun.com|g" /etc/apk/repositories \
- && sed -i "s|http|https|g" /etc/apk/repositories \ 
+COPY startup /startup
+COPY .vimrc nvim_init /root/
+
+RUN sed -i 's|v3.9|edge|g' /etc/apk/repositories \  
+ && sed -i 's|http|https|g' /etc/apk/repositories \
+ && apk update \
+ && apk add neovim neovim-doc curl bash zsh \
+ && mkdir -p /root/.config/nvim \
+ && curl -fLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim \
+ && mkdir -p /root/.config/nvim/colors \
+ && ln -s /root/.vimrc /root/.config/nvim/init.vim \
+
+ && sed -i 's|edge|v3.9|g' /etc/apk/repositories \
  && apk update \
 
- && apk add php7 \
+ && apk add openssh-client git make g++ \
+            php7 \
             php7-fpm \
             php7-openssl \
+            php7-pecl-msgpack \
             php7-pdo_mysql \
             php7-mbstring \
             php7-tokenizer \
@@ -21,6 +35,7 @@ RUN sed -i "s|dl-cdn.alpinelinux.org|mirrors.aliyun.com|g" /etc/apk/repositories
             php7-bcmath \
             php7-json \
             php7-phar \
+            php7-pcntl \
             php7-curl \
             php7-iconv \
             php7-mcrypt \
@@ -32,32 +47,24 @@ RUN sed -i "s|dl-cdn.alpinelinux.org|mirrors.aliyun.com|g" /etc/apk/repositories
             php7-zip \
             libbsd \
 
- && apk add openssh-client git make python-dev g++ zsh \
+ && git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh \
+ && cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc \
+ && sed -i 's|ZSH_THEME="robbyrussell"|ZSH_THEME="yilu"|' /root/.zshrc \
 
-# install composer
- && php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" \
- && php composer-setup.php --install-dir=/usr/bin --filename=composer \
- && rm /composer-setup.php
+ && curl -sS https://getcomposer.org/installer | php \
+ && mv composer.phar /usr/local/bin/composer \
+ && composer config -g repo.packagist composer https://mirrors.aliyun.com/composer/ \
 
-# install oh-my-zsh
-RUN git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh \
- && cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc
-COPY yilu.zsh-theme /root/.oh-my-zsh/themes/yilu.zsh-theme
-RUN sed -i 's|ZSH_THEME="robbyrussell"|ZSH_THEME="yilu"|' /root/.zshrc
+ && sed -i '/*.conf;/a\    include /workspace/*/*/nginx.conf;' /etc/nginx/nginx.conf \
 
-# set chinese registry mirror for composer and npm
-RUN composer config -g repo.packagist composer https://packagist.laravel-china.org \
- && sed -i '/*.conf;/a\    include /workspace/*/*/nginx.conf;' /etc/nginx/nginx.conf
-
-COPY cmd/php-restart /usr/local/bin/php-restart
-RUN chmod +x -R /usr/local/bin/*
+ && chmod +x /startup \
+ && mkdir -p /workspace
 
 COPY php.ini /etc/php7/php.ini
 COPY www.conf /etc/php7/php-fpm.d/www.conf
-COPY startup /startup
+COPY yilu.zsh-theme /root/.oh-my-zsh/themes/yilu.zsh-theme
+COPY dracula.vim /root/.config/nvim/colors/
 
-RUN chmod +x /startup \
- && mkdir -p /workspace
 WORKDIR /workspace
 
 CMD ["/startup"]
