@@ -58,7 +58,7 @@ RUN sed -i 's|v3.9|edge|g' /etc/apk/repositories \
  && sed -i '/*.conf;/a\    include /workspace/*/*/nginx.conf;' /etc/nginx/nginx.conf \
  && chmod +x /startup \
  && mkdir -p /workspace
-
+ 
 COPY php.ini /etc/php7/php.ini
 COPY www.conf /etc/php7/php-fpm.d/www.conf
 COPY yilu.zsh-theme /root/.oh-my-zsh/themes/yilu.zsh-theme
