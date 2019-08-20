@@ -3,7 +3,7 @@ FROM nginx:1.17.0-alpine
 LABEL maintainer="yilu-zzb <zhouzhibin@yilu.co>"
 
 COPY startup /startup
-COPY .vimrc nvim_init /root/
+COPY .vimrc nvim_init.sh /root/
 
 RUN sed -i 's|v3.9|edge|g' /etc/apk/repositories \  
  && sed -i 's|http|https|g' /etc/apk/repositories \
