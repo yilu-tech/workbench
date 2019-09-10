@@ -14,6 +14,8 @@ RUN sed -i 's|v3.9|edge|g' /etc/apk/repositories \
  && mkdir -p /root/.config/nvim/colors \
  && ln -s /root/.vimrc /root/.config/nvim/init.vim \
 
+ && cp /usr/share/zoneinfo/Asia/Chongqing /etc/localtime \
+
  && sed -i 's|edge|v3.9|g' /etc/apk/repositories \
  && apk update \
 
