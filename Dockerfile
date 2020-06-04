@@ -47,6 +47,8 @@ RUN sed -i 's|v3.9|edge|g' /etc/apk/repositories \
             php7-xdebug \
             php7-zip \
             libbsd \
+            openssh-server \
+            openssh-sftp-server \
 
  && git clone https://github.com/robbyrussell/oh-my-zsh.git ~/.oh-my-zsh \
  && cp ~/.oh-my-zsh/templates/zshrc.zsh-template ~/.zshrc \
