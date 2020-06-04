@@ -16,7 +16,7 @@ RUN sed -i 's|v3.9|edge|g' /etc/apk/repositories \
 
  && cp /usr/share/zoneinfo/Asia/Chongqing /etc/localtime \
 
- && sed -i 's|edge|v3.9|g' /etc/apk/repositories \
+ && sed -i 's|edge|v3.12|g' /etc/apk/repositories \
  && apk update \
 
  && apk add openssh-client git make g++ \
