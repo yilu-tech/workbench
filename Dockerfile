@@ -1,11 +1,11 @@
-FROM nginx:1.17.0-alpine
+FROM nginx:1.19.0-alpine
 
 LABEL maintainer="yilu-zzb <zhouzhibin@yilu.co>"
 
 COPY startup /startup
 COPY .vimrc nvim_init.sh /root/
 
-RUN sed -i 's|v3.9|edge|g' /etc/apk/repositories \  
+RUN sed -i 's|v3.12|edge|g' /etc/apk/repositories \  
  && apk update \
  && apk add neovim neovim-doc curl bash zsh \
  && mkdir -p /root/.config/nvim \
